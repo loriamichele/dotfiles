@@ -1,0 +1,444 @@
+"
+" General behavior
+"
+set nocompatible                " Use vim defaults
+let mapleader=","               " Use the comma as leader
+set history=1000                " Increase history
+set nobackup                    " Do not backup files on overwrite
+set directory=~/.vim/tmp        " Directory to put swap file
+
+" higlight the cursor line
+set cursorline
+set fillchars=""
+
+" Italic supports
+set t_ZH=[3m
+set t_ZR=[23m
+
+"
+" Tabs & Indentation
+"
+
+set expandtab     " converts tabs to spaces
+set autoindent    " automatically copy indentation from previous line
+set smartindent   " indents one extra level according to current syntax
+" indents with tab = 4 spaces
+set tabstop=4
+set shiftwidth=4
+set list
+set listchars=trail:∙,nbsp:∙,tab:»·
+if has('gui_running')
+    set listchars=trail:‧,tab:▹∙,nbsp:ⅹ
+    set lines=50 columns=140
+    set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ Regular\ 14
+endif
+" fixme: should use softtabstop=4 instead of expandtab and setting tabstop
+
+" define shortcuts ',2' and ',4' to change indentation easily:
+nmap <leader>2 :set tabstop=2<cr>:set shiftwidth=2<cr>
+nmap <leader>4 :set tabstop=4<cr>:set shiftwidth=4<cr>
+
+"
+" Interface
+"
+set ls=2                            " Always show the status line
+set ruler                           " Show cursor position
+set notitle                         " Don't show title in console title bar
+set novisualbell                    " Don't use the visual bell
+set nowrap                          " Wrap lineource $MYVIMRC
+set showmatch                       " Show matching (){}[]
+set noshowcmd
+set noshowmode
+set laststatus=2
+set clipboard+=unnamed          " "Allow to cp/p from clipboard
+set number
+
+map <leader>l 20zl
+map <leader>h 20zh
+imap <leader>s <C-x><C-u>
+
+" Search options
+set incsearch
+set hlsearch
+set ignorecase
+
+if (has('gui_running'))
+    set guioptions-=m               " Remove menu bar
+    set guioptions-=T               " Remove toolbar
+    set guioptions-=r               " Remove right-hand scroll bar
+    set guioptions-=L               " Remove right-hand scroll bar
+endif
+
+" Easily switch between relative & absolute number
+nmap <silent> <leader>na :set norelativenumber<cr>
+nmap <silent> <leader>nr :set relativenumber<cr>
+
+" Automatically create save directory if it does not exist
+au BufWrite * :call <SID>MkdirsIfNotExists(expand('<afile>:h'))
+function! <SID>MkdirsIfNotExists(directory)
+    if(!isdirectory(a:directory))
+        call system('mkdir -p '.shellescape(a:directory))
+    endif
+endfunction
+
+" Redraw screen
+nmap <leader>r :redraw!<cr>
+
+" Clear search highlight
+nmap <silent> <leader> :let @/=""<cr>
+
+let @a='/implements^Mw,j'
+
+"
+" Command line
+"
+
+set wildmenu                        " Better completion
+set wildmode=list:longest           " BASH style completion
+
+" tab navigation
+nnoremap <silent> <C-w>t :tabnew<CR>
+nnoremap <silent> <Leader>tn :tabnext<CR>
+"
+" Navigation & Viewport
+"
+set scrolloff=5       " at least 5 lines of context when moving cursor
+set sidescrolloff=5   " and 5 columns of contet
+set hidden                          " Allow switch beetween modified buffers
+set backspace=indent,eol,start      " Improve backspacing
+
+" Restore cursor position
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+
+"
+" Chars
+"
+
+set encoding=utf-8
+
+"
+" Syntax & File types
+"
+syntax enable         " Enable syntax highlighting
+set synmaxcol=200
+filetype off          " enable file type detection
+
+" Use the htmljinja syntax for twig files
+au BufNewFile,BufRead *.twig set ft=htmljinja
+
+" Use the underscore js syntax for ejs files
+au BufRead,BufNewFile *.ejs set filetype=html
+au BufRead,BufNewFile *.ejs set syntax=underscore_template
+
+" Use the haskell filetype for hss files
+au BufNewFile,BufRead *.hsc set ft=haskell
+
+" Use the dart filetype for dart files
+au BufNewFile,BufRead *.dart set ft=dart
+
+" Use he mardown syntax for *.md files
+au BufNewFile,BufRead *md set ft=markdown
+
+match ErrorMsg '\s\+$'
+silent! set listchars+=nbsp:~
+" automatically remove trailing whitespace before write
+function! StripTrailingWhitespace()
+  normal mZ
+  %s/\s\+$//e
+  if line("'Z") != line(".")
+    echo "Stripped whitespace\n"
+  endif
+  normal `Z
+endfunction
+
+map <silent> <F2> :call StripTrailingWhitespace()<CR>
+map! <silent> <F2> :call StripTrailingWhitespace()<CR>
+
+" TODO get rid of this specific config
+set wildignore=data/**,app/cache/**,web/bundles/**,src/*/*Bundle/vendor,src/*/vendor,old/*,app/lib/*,jspm_packages/**
+
+"
+" Vundle configuration
+"
+set rtp+=~/.vim/bundle/vundle
+call vundle#rc()
+
+set tags=tags
+" au FileType php set tags=php-src.tags,php-vendor.tags
+" au FileType javascript set tags=js-lib.tags,js-modules.tags,js-jspm.tags
+" au FileType typescript set tags=ts-lib.tags,ts-typings.tags,ts-modules.tags
+" au FileType python set tags=python.tags
+
+" Let vundle manage the vundle
+Bundle 'gmarik/vundle'
+
+Bundle 'joonty/vdebug.git'
+Bundle 'The-NERD-tree'
+Bundle 'UltiSnips'
+Bundle 'ctrlpvim/ctrlp.vim'
+Bundle 'ivalkeen/vim-ctrlp-tjump.git'
+Bundle 'arnaud-lb/vim-php-namespace'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'Lokaltog/vim-distinguished.git'
+Bundle 'docteurklein/vim-symfony.git'
+Bundle 'kana/vim-smartinput.git'
+Bundle 'danro/rename.vim.git'
+Bundle 'lunaru/vim-less'
+Bundle 'hail2u/vim-css3-syntax.git'
+Bundle 'bling/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
+Bundle 'godlygeek/tabular.git'
+Bundle 'tpope/vim-fugitive.git'
+Bundle 'sjbach/lusty.git'
+Bundle 'heavenshell/vim-jsdoc.git'
+Bundle 'mileszs/ack.vim.git'
+Bundle 'Herzult/phpspec-vim.git'
+Bundle 'vim-scripts/bufkill.vim.git'
+Bundle 'tobyS/vmustache.git'
+Bundle 'tobyS/pdv'
+Bundle 'editorconfig/editorconfig-vim.git'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'aaronj1335/underscore-templates.vim.git'
+Bundle 'scrooloose/nerdcommenter.git'
+Bundle 'mattn/emmet-vim'
+Bundle 'mustache/vim-mustache-handlebars'
+Bundle 'ekalinin/Dockerfile.vim'
+Bundle 'leafgarland/typescript-vim.git'
+Bundle 'rking/ag.vim.git'
+Bundle 'ryanoasis/vim-devicons'
+Bundle 'pangloss/vim-javascript'
+Bundle 'mxw/vim-jsx'
+Bundle 'Quramy/vim-js-pretty-template'
+Bundle 'bcicen/vim-vice'
+Bundle 'ashisha/image.vim'
+Bundle 'fatih/vim-go'
+Bundle 'vim-syntastic/syntastic'
+Bundle 'grassdog/tagman.vim'
+
+filetype plugin indent on
+
+"
+" Airline
+"
+let g:airline_powerline_fonts=1
+let g:airline_theme='powerlineish'
+let g:airline#extensions#hunks#enabled=0
+let g:airline#extensions#tabline#fnamemod=':t'
+let g:airline#extensions#tabline#fnamecollapse=0
+let g:airline_section_c='%t'
+
+if !exists('g:airline_symbols')
+let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_symbols.linenr = ''
+let g:airline_symbols.maxlinenr = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.paste = ''
+let g:airline_symbols.whitespace = ''
+
+"
+" PDV
+"
+let g:pdv_template_dir = $HOME ."/.vim/doc_templates"
+nnoremap <Leader>d :call pdv#DocumentWithSnip()<CR>
+
+"
+" ControlP mapping
+"
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+nnoremap <silent> <C-b> :CtrlPBuffer<CR>
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v([\/]\.(git|hg|svn))|([\/]node_modules)|([\/]compiled)|([\/]dist)|([\/]app/lib)|([\/]bower_components)|([\/]doc)|([\/]jspm_packages)$',
+  \ }
+
+"
+" UltiSnips comportment
+"
+let g:UltiSnipsExpandTrigger="<Leader><Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Leader><Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<Leader><S-Tab>"
+
+"
+" Coloration
+"
+set t_Co=256
+colorscheme molokai
+hi Normal          guifg=#F8F8F2
+" let &colorcolumn="80,".join(range(120,999),",")
+highlight CursorColumn ctermbg=235 guibg=#2c2d27
+highlight CursorLine ctermbg=235 guibg=#4c4c4c
+highlight LineNr ctermbg=235 guibg=#2c2d27
+highlight Visual ctermbg=239
+hi ColorColumn guibg=#2d2d2d ctermbg=235
+
+
+" Add some keys map
+nnoremap <leader>x :NERDTreeToggle<CR>
+nnoremap <leader>g :Ack "
+vnoremap <Leader>: :Tabularize /:<CR>
+vnoremap <Leader>/ :Tabularize /:\zs<CR>
+vmap <Leader>= :Tabularize /=<CR>
+vnoremap <Leader>> :Tabularize /=><CR>
+vnoremap <Leader>$ :Tabularize /\$/l1r0<CR>
+vnoremap <Leader>\| :Tabularize /\|<CR>
+nnoremap <Leader>ts :!rm tags; ctags -R --exclude=build --exclude=.git --exclude=vendor/phpunit --exclude=node_modules --exclude=docker --exclude=assets<CR>
+nnoremap <Leader>v :source ~/.vimrc<CR>
+nnoremap <silent> <Leader>+ :vertical resize +5<CR>
+nnoremap <silent> <Leader>- :vertical resize -5<CR>
+nnoremap <silent> <Leader>en :set number<CR>
+nnoremap <silent> <Leader>dn :set nonumber<CR>
+vnoremap <Leader>f y/<C-R>"<CR>"
+
+" easy navigation between words
+nmap <C-l> w
+nmap <C-h> b
+nmap <C-j> 4j
+nmap <C-k> 4k
+vmap <C-l> w
+vmap <C-h> b
+vmap <C-j> 4j
+vmap <C-k> 4k
+
+" Easy navigation between splits
+nnoremap <S-J> <C-W><C-J>
+nnoremap <S-K> <C-W><C-K>
+nnoremap <S-L> <C-W><C-L>
+nnoremap <S-H> <C-W><C-H>
+
+" easy select all
+nmap <Leader>a gg<S-v><S-g><CR>
+
+" esay copy-paste clipboard
+vmap <Leader>y "+y<CR>
+nmap <leader>p "+p<CR>
+
+" clear vim cache
+nnoremap <Leader><C-c> :!rm -rf ~/.vim/tmp/*<CR>
+
+" easy buffer navigation
+nmap <Leader>b <Leader>lb
+nnoremap <Leader>ll :bn<CR>
+nnoremap <Leader>hh :bp<CR>
+
+"C++ headers navigation
+nnoremap <leader>jh :e %:r.h:s?src?include?<CR>
+
+map <M-a>v <C-c>
+
+" Easy tags jump
+nmap <silent> <Leader>j "zyiw:exe ":tj ".@z.""<CR>
+nmap <silent> <Leader>J "zyiw:exe ":ptj ".@z.""<CR>
+
+" configure NERDTree
+set modifiable
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
+
+noremap <Leader>nf :NERDTreeFind<CR>
+
+" PHP namespace
+inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
+noremap <Leader>u :call PhpInsertUse()<CR>
+inoremap <Leader>e <C-O>:call PhpExpandClass()<CR>
+noremap <Leader>e :call PhpExpandClass()<CR>
+
+" ZEN coding shortcuts ;)
+nmap <silent> <Leader>z :call emmet#expandAbbr(3,"")<CR>i
+imap <silent> <Leader>z <Esc>h :call emmet#expandAbbr(3,"")<CR>i
+
+"
+" Jsdoc mapping
+"
+let g:jsdoc_default_mapping = 0
+nmap <silent> <Leader><C-j> :call jsdoc#insert()<CR>
+
+" ctrlp configuration
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:8,results:100'
+
+
+" vim-symfony configuration
+let g:symfony_app_console_caller= "php"
+let g:symfony_app_console_path = "app/console"
+noremap <leader>sr :call CompleteSymfonyRouter(expand("<cword>"))<CR>
+noremap <leader>sc :call CompleteSymfonyContainer()<CR>
+noremap <leader>sf :execute ":!"g:symfony_enable_shell_cmd<CR>
+noremap <silent> <C-t> :CtrlPTag<cr>
+
+" Omnifund
+set omnifunc=syntaxcomplete#Complete
+
+" speep up Ctrl-P
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('rg')
+  let g:ctrlp_user_command = 'rg %s --files'
+  let g:ackprg = 'rg --vimgrep'
+endif
+
+set keywordprg=pdoc
+
+let NERDTreeIgnore=['\gulp-*', '\~$', '\.tags$']
+
+" Use TAB to complete when typing words, else inserts TABs as usual.
+" Uses dictionary and source files to find matching words to complete.
+
+" See help completion for source,
+" Note: usual completion is on <C-n> but more trouble to press all the time.
+" Never type the same word twice and maybe learn a new spellings!
+" Use the Linux dictionary when spelling is in doubt.
+" Window users can copy the file to their machine.
+function! Tab_Or_Complete()
+  if col('.')>1 && strpart( getline('.'), col('.')-2, 3 ) =~ '^\w'
+    return "\<C-p>"
+  else
+    return "\<Tab>"
+  endif
+endfunction
+
+inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
+
+" Enable mouse funcionalities
+set mouse=a
+" And add toggle shortcuts
+nnoremap <Leader>me :set mouse=a<cr>
+nnoremap <Leader>md :set mouse=<cr>
+
+" Add line lenght rules
+set colorcolumn=80,100,120
+
+" Disable arrows :D
+noremap <Up> <Nop>
+noremap <Down> <Nop>
+noremap <Left> <Nop>
+noremap <Right> <Nop>
+
+" Syntastic config
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_mode_map = {
+    \ "mode": "active",
+    \ "passive_filetypes": ["html", "scss"] }
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_php_checkers = ['phpcs']
+let g:syntastic_php_phpcs_args = '--standard=PSR2 -n'
+" Point syntastic checker at locally installed `standard` if it exists.
+if executable('node_modules/.bin/eslint')
+  let b:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
+endif
+

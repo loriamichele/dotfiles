@@ -1,0 +1,93 @@
+alias ll='ls -lartG'
+alias taggenjs='sh ~/.dotfiles/utils/genjstags.sh'
+alias taggensym='sh ~/.dotfiles/utils/gensymfonytags.sh'
+alias doc='docker'
+alias docps='ruby ~/.dotfiles/utils/betterdps.rb -a'
+alias docim='ruby ~/.dotfiles/utils/betterdim.rb'
+alias dockerkillall='docker kill $(docker ps -q)'
+alias gprune='git fetch --prune; git branch -r | awk '"'"'{print $1}'"'"' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '"'"'{print $1}'"'"' | xargs git branch -d'
+
+function gitbranches()
+{
+    if [[ -z "$1" ]]; then
+        echo "Usage: $FUNCNAME <dir>" >&2
+        return 1
+    fi
+    if [[ ! -d "$1" ]]; then
+        echo "Invalid dir specified: '${1}'"
+        return 1
+    fi
+    (
+        GREEN='\033[0;32m'
+        NC='\033[0m'
+        BOLD=$(tput bold)
+        NORMAL=$(tput sgr0)
+        cd "$1"
+        printf "${BOLD}%20s ${GREEN}%s${NC}${NORMAL}\n" "Folder" "Branch"
+        for sub in *; do
+            [[ -d "${sub}/.git" ]] || continue
+            printf "%20s ${GREEN}%s${NC}\n" $sub "[$(cd "$sub"; git  branch | grep '^\*' | sed 's/^..//' | sed 's/detached from //')]"
+        done
+    )
+}
+
+function gitrecursivepull()
+{
+    if [[ -z "$1" ]]; then
+        echo "Usage: $FUNCNAME <dir>" >&2
+        return 1
+    fi
+    if [[ ! -d "$1" ]]; then
+        echo "Invalid dir specified: '${1}'"
+        return 1
+    fi
+    (
+        GREEN='\033[0;32m'
+        NC='\033[0m'
+        BOLD=$(tput bold)
+        NORMAL=$(tput sgr0)
+        cd "$1"
+        for sub in *; do
+            [[ -d "${sub}/.git" ]] || continue
+            printf "Pulling ${GREEN}%s${NC}...\n" $sub
+            cd $sub
+            # git checkout -- .
+            git pull
+            git submodule sync
+            git submodule update --init --recursive
+            cd ..
+        done
+    )
+}
+
+function gitrecursiveclean()
+{
+    if [[ -z "$1" ]]; then
+        echo "Usage: $FUNCNAME <dir>" >&2
+        return 1
+    fi
+    if [[ ! -d "$1" ]]; then
+        echo "Invalid dir specified: '${1}'"
+        return 1
+    fi
+    echo "Are you really sure? This will delete all the untracked/unstaged/ignored files! [Y/n]"
+    read -k 1 answer
+    if [[ "$answer" == "Y" ]]
+    then
+        printf "\n"
+        (
+            RED='\033[0;31m'
+            NC='\033[0m'
+            BOLD=$(tput bold)
+            NORMAL=$(tput sgr0)
+            cd "$1"
+            for sub in *; do
+                [[ -d "${sub}/.git" ]] || continue
+                printf "Cleaning ${RED}%s${NC}...\n" $sub
+                cd $sub
+                git clean -d -fx ""
+                cd ..
+            done
+        )
+    fi
+}
