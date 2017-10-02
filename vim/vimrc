@@ -214,6 +214,7 @@ Bundle 'ashisha/image.vim'
 Bundle 'fatih/vim-go'
 Bundle 'vim-syntastic/syntastic'
 Bundle 'grassdog/tagman.vim'
+Bundle 'prettier/vim-prettier'
 
 filetype plugin indent on
 
@@ -442,3 +443,6 @@ if executable('node_modules/.bin/eslint')
   let b:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
 endif
 
+" Prettier config
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql PrettierAsync
