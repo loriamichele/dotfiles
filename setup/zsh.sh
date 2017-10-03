@@ -11,5 +11,6 @@ git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plu
 rm ~/.zshrc
 cd ~ && ln -s .dotfiles/zsh/zshrc .zshrc
 cd ~ && ln -s .dotfiles/zsh/bash_aliases .bash_aliases
+cd ~ && ln -s .dotfiles/zsh/tmux.conf .tmux.conf
 
 echo "😄  done"
