@@ -93,5 +93,9 @@ POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
 
 export VIMRUNTIME=/usr/local/share/vim/vim80
 
+export LC_ALL="en_GB.utf8"
+export LC_CTYPE="en_US.UTF-8"
+export LANG="en_GB.UTF-8"
+
 #SSH keys
 ssh-add -K &> /dev/null
