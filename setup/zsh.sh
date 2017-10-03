@@ -2,9 +2,11 @@
 echo "Installing zsh configuration files, please wait ..."
 
 cd ~ && ln -s .dotfiles/zsh/zshrc .zshrc
-cd ~ && ln -s .dotfiles/zsh/oh-my-zsh .oh-my-zsh
-cd ~ && ln -s .dotfiles/zsh/oh-my-zsh-custom .oh-my-zsh/custom
+cd ~ && ln -s .dotfiles/zsh/bash_aliases .bash_aliases
 
-chmod 777 .dotfiles/vim/tmp
+cd ~ && sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+git clone git://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 
 echo "😄  done"

@@ -1,11 +1,47 @@
 alias ll='ls -lartG'
-alias taggenjs='sh ~/.dotfiles/utils/genjstags.sh'
-alias taggensym='sh ~/.dotfiles/utils/gensymfonytags.sh'
+alias cdv='cd /Users/mike/subito_local'
+alias cdc='cd /Users/mike/react_projects/sbt_components'
+alias cdcd='cd /Users/mike/git_projects/sbt_components_deploy'
+alias vi='/usr/local/Cellar/vim/7.4.1864_1/bin/vim'
+alias v='virgilio'
+alias vc='virgilio command -n'
+alias vr='virgilio run -n'
+alias vs='virgilio stop -n'
+alias hostswitch='sudo ~/hosts_switch.sh'
+alias taggenjs='sh ~/.vimsetup/genjstags.sh'
+alias taggensym='rm tags; ctags -R --exclude=build --exclude=.git --exclude=vendor/phpunit --exclude=node_modules --exclude=docker --exclude=assets --exclude=web/coverage'
 alias doc='docker'
-alias docps='ruby ~/.dotfiles/utils/betterdps.rb -a'
-alias docim='ruby ~/.dotfiles/utils/betterdim.rb'
+alias docps='ruby ~/betterdps.rb -a'
+alias docim='ruby ~/betterdim.rb'
 alias dockerkillall='docker kill $(docker ps -q)'
 alias gprune='git fetch --prune; git branch -r | awk '"'"'{print $1}'"'"' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '"'"'{print $1}'"'"' | xargs git branch -d'
+alias newalacritty='open -n /Applications/Alacritty.app'
+
+function susp() {
+    (
+        cdv
+        vagrant suspend
+    )
+}
+
+function boot() {
+    (
+        cdv
+        vagrant resume
+        ssh virgilio
+    )
+}
+
+function tunnel {
+    ssh -p 443 -D 2001 -f -C -q -N root@micheleloria.net
+    networksetup -setsocksfirewallproxy "Wi-Fi" localhost 2001
+}
+
+function detunnel {
+    networksetup -setsocksfirewallproxy "Wi-Fi" "" ""
+    networksetup -setsocksfirewallproxystate "Wi-Fi" off
+    kill $(ps aux | grep "\-N root\@micheleloria" | awk '{print $2}')
+}
 
 function gitbranches()
 {
