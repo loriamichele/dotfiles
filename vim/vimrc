@@ -216,6 +216,7 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'grassdog/tagman.vim'
 Plugin 'prettier/vim-prettier'
 
+call vundle#end()
 filetype plugin indent on
 
 "
