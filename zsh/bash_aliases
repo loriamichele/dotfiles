@@ -1,3 +1,4 @@
+alias vi='vim'
 alias ll='ls -lartG'
 alias cdv='cd /Users/mike/subito_local'
 alias cdc='cd /Users/mike/react_projects/sbt_components'
