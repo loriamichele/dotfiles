@@ -447,3 +447,6 @@ endif
 " Prettier config
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql PrettierAsync
+
+" JSON Prettifier
+nnoremap <Leader>pj :%!python -m json.tool<CR>
