@@ -15,6 +15,9 @@ set fillchars=""
 set t_ZH=[3m
 set t_ZR=[23m
 
+" Encoding
+set encoding=utf-8
+
 "
 " Tabs & Indentation
 "
@@ -50,7 +53,7 @@ set showmatch                       " Show matching (){}[]
 set noshowcmd
 set noshowmode
 set laststatus=2
-set clipboard+=unnamed          " "Allow to cp/p from clipboard
+set clipboard=unnamed               " Allow to cp/p from clipboard
 set number
 
 map <leader>l 20zl
@@ -111,12 +114,6 @@ set backspace=indent,eol,start      " Improve backspacing
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
 "
-" Chars
-"
-
-set encoding=utf-8
-
-"
 " Syntax & File types
 "
 syntax enable         " Enable syntax highlighting
@@ -140,7 +137,6 @@ au BufNewFile,BufRead *.dart set ft=dart
 au BufNewFile,BufRead *md set ft=markdown
 
 match ErrorMsg '\s\+$'
-silent! set listchars+=nbsp:~
 " automatically remove trailing whitespace before write
 function! StripTrailingWhitespace()
   normal mZ
@@ -317,10 +313,6 @@ nnoremap <S-H> <C-W><C-H>
 " easy select all
 nmap <Leader>a gg<S-v><S-g><CR>
 
-" esay copy-paste clipboard
-vmap <Leader>y "+y<CR>
-nmap <leader>p "+p<CR>
-
 " clear vim cache
 nnoremap <Leader><C-c> :!rm -rf ~/.vim/tmp/*<CR>
 
@@ -344,6 +336,7 @@ let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
 let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
+autocmd FileType nerdtree setlocal nolist
 
 noremap <Leader>nf :NERDTreeFind<CR>
 
