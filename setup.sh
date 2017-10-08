@@ -12,6 +12,7 @@ echo "
 Instalation in progress ...
 "
 
+bash setup/alacritty.sh
 bash setup/zsh.sh
 bash setup/vim.sh
 bash setup/font.sh
