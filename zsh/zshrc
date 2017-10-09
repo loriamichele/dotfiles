@@ -54,9 +54,9 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 # User configuration
 
-export GOPATH=~/go
+export GOPATH=$HOME/go
 export GOBIN=$GOPATH/bin
-export PATH="$PATH:$GOBIN:/usr/local/opt/go/libexec/bin:~/.cargo/bin:/usr/local/php5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="$PATH:$GOBIN:/usr/local/opt/go/libexec/bin:$HOME/.cargo/bin:/usr/local/php5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
