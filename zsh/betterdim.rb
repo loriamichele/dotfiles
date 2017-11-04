@@ -58,7 +58,7 @@ class DockerImageList
       if name.include? "mesos"
         name = "[mesos] " + name[31,name.length]
       end
-      images << Image.new(name, tag, hash, si + ' ' + ze)
+      images << Image.new(name, tag, hash, si.to_s + ' ' + ze.to_s)
     end
     images.sort_by do |i|
       [i[:name], i[:tag]]
