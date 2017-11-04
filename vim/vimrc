@@ -30,12 +30,6 @@ set tabstop=4
 set shiftwidth=4
 set list
 set listchars=trail:∙,nbsp:∙,tab:»·
-if has('gui_running')
-    set listchars=trail:‧,tab:▹∙,nbsp:ⅹ
-    set lines=50 columns=140
-    set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ Regular\ 14
-endif
-" fixme: should use softtabstop=4 instead of expandtab and setting tabstop
 
 " define shortcuts ',2' and ',4' to change indentation easily:
 nmap <leader>2 :set tabstop=2<cr>:set shiftwidth=2<cr>
@@ -64,13 +58,6 @@ imap <leader>s <C-x><C-u>
 set incsearch
 set hlsearch
 set ignorecase
-
-if (has('gui_running'))
-    set guioptions-=m               " Remove menu bar
-    set guioptions-=T               " Remove toolbar
-    set guioptions-=r               " Remove right-hand scroll bar
-    set guioptions-=L               " Remove right-hand scroll bar
-endif
 
 " Easily switch between relative & absolute number
 nmap <silent> <leader>na :set norelativenumber<cr>
@@ -206,7 +193,6 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'Quramy/vim-js-pretty-template'
 Plugin 'bcicen/vim-vice'
-Plugin 'ashisha/image.vim'
 Plugin 'fatih/vim-go'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'grassdog/tagman.vim'
@@ -443,3 +429,13 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.gra
 
 " JSON Prettifier
 nnoremap <Leader>pj :%!python -m json.tool<CR>
+
+if has('gui_running')
+    set listchars=trail:‧,tab:▹∙,nbsp:ⅹ
+    set lines=100 columns=140
+    set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ Regular\ 13
+    highlight Normal guifg=#F8F8F2 guibg=#101520
+    set guioptions-=T               " Remove toolbar
+    set guioptions-=r               " Remove right-hand scroll bar
+    set guioptions-=L               " Remove right-hand scroll bar
+endif
