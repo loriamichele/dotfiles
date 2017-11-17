@@ -54,7 +54,7 @@ class DockerContainerList
     ]
     output = `#{options.join(' ')}`
     containers = []
-    containers << Container.new('Name', 'Hash', 'Image', 'IP', 'Status')
+    containers << Container.new('Name', 'Hash', '[-reg-] Image', 'IP', 'Status')
     json_containers = JSON.parse(output)
     json_containers.each do |container|
       name = container['Name'][1,container['Name'].length]
@@ -65,7 +65,10 @@ class DockerContainerList
 
       if image.include? "mesos"
         image = "[mesos] " + image[31,image.length]
+      elsif
+        image = "[-std-] " + image
       end
+
       containers << Container.new(name, hash, image, ip, status)
     end
     containers.sort_by do |c|

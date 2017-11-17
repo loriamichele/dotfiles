@@ -423,6 +423,8 @@ if executable('node_modules/.bin/eslint')
   let b:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
 endif
 
+nnoremap <Leader>st :SyntasticToggleMode<cr>
+
 " Prettier config
 let g:prettier#autoformat = 0
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql PrettierAsync
