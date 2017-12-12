@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 module DockerHelper
   @@colors = {
     container: 34,
@@ -33,7 +34,6 @@ module DockerHelper
   end
 end
 
-
 Image = Struct.new(:name, :tag, :hash, :size)
 # Display the list of current docker images
 class DockerImageList
@@ -52,11 +52,14 @@ class DockerImageList
     ]
     output = `#{options.join(' ')}`
     images = []
+    images << Image.new('[-reg-] Name', 'Tag', 'Hash', 'Size')
     output.each_line.with_index do |line, index|
       next if index == 0
-      name, tag, hash, cre, a, ted, si, ze = line.split(' ').compact
+      name, tag, hash, _, _, _, si, ze = line.split(' ').compact
       if name.include? "mesos"
         name = "[mesos] " + name[31,name.length]
+      elsif
+        name = "[-std-] " + name
       end
       images << Image.new(name, tag, hash, si.to_s + ' ' + ze.to_s)
     end
@@ -73,6 +76,10 @@ class DockerImageList
     @image_list.map { |obj| obj[:tag] }.group_by(&:size).max.last[0].length
   end
 
+  def longest_hash_length
+    @image_list.map { |obj| obj[:hash] }.group_by(&:size).max.last[0].length
+  end
+
   def output_name(image)
     colorize(image[:name].ljust(longest_name_length), color(:image))
   end
@@ -82,7 +89,7 @@ class DockerImageList
   end
 
   def output_hash(image)
-    colorize(image[:hash], color(:hash))
+    colorize(image[:hash].ljust(longest_hash_length), color(:hash))
   end
 
   def output_size(image)
@@ -99,6 +106,5 @@ class DockerImageList
     end
   end
 end
+
 DockerImageList.new(*ARGV).run
-
-
