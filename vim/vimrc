@@ -155,9 +155,8 @@ set tags=tags
 " Let vundle manage the vundle
 Plugin 'VundleVim/Vundle.vim'
 
-Plugin 'joonty/vdebug.git'
 Plugin 'The-NERD-tree'
-Plugin 'UltiSnips'
+" Plugin 'UltiSnips'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ivalkeen/vim-ctrlp-tjump.git'
 Plugin 'arnaud-lb/vim-php-namespace'
@@ -189,14 +188,18 @@ Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'leafgarland/typescript-vim.git'
 Plugin 'rking/ag.vim.git'
 Plugin 'ryanoasis/vim-devicons'
-Plugin 'pangloss/vim-javascript'
+Plugin 'jparise/vim-graphql'
 Plugin 'mxw/vim-jsx'
 Plugin 'Quramy/vim-js-pretty-template'
 Plugin 'bcicen/vim-vice'
 Plugin 'fatih/vim-go'
-Plugin 'vim-syntastic/syntastic'
+" Plugin 'vim-syntastic/syntastic'
+Plugin 'w0rp/ale'
 Plugin 'grassdog/tagman.vim'
 Plugin 'prettier/vim-prettier'
+Plugin 'isRuslan/vim-es6'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'peitalin/vim-jsx-typescript'
 
 call vundle#end()
 filetype plugin indent on
@@ -245,9 +248,9 @@ let g:ctrlp_custom_ignore = {
 "
 " UltiSnips comportment
 "
-let g:UltiSnipsExpandTrigger="<Leader><Tab>"
-let g:UltiSnipsJumpForwardTrigger="<Leader><Tab>"
-let g:UltiSnipsJumpBackwardTrigger="<Leader><S-Tab>"
+" let g:UltiSnipsExpandTrigger="<Leader><Tab>"
+" let g:UltiSnipsJumpForwardTrigger="<Leader><Tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<Leader><S-Tab>"
 
 "
 " Coloration
@@ -402,35 +405,16 @@ noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
-" Syntastic config
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_mode_map = {
-    \ "mode": "active",
-    \ "passive_filetypes": ["html", "scss"] }
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_php_checkers = ['phpcs']
-let g:syntastic_php_phpcs_args = '--standard=PSR2 -n'
-" Point syntastic checker at locally installed `standard` if it exists.
-if executable('node_modules/.bin/eslint')
-  let b:syntastic_javascript_eslint_exec = 'node_modules/.bin/eslint'
-endif
-
-nnoremap <Leader>st :SyntasticToggleMode<cr>
+let g:ale_linters = {
+\    'typescript': ['tslint', 'tsserver'],
+\}
 
 " Prettier config
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql PrettierAsync
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.graphql PrettierAsync
 
 " JSON Prettifier
-nnoremap <Leader>pj :%!python -m json.tool<CR>
+nnoremap <Leader>jp :%!python -m json.tool<CR>
 
 if has('gui_running')
     set listchars=trail:‧,tab:▹∙,nbsp:ⅹ
@@ -441,3 +425,10 @@ if has('gui_running')
     set guioptions-=r               " Remove right-hand scroll bar
     set guioptions-=L               " Remove right-hand scroll bar
 endif
+
+" Typescript/Tsuquyomi config
+au FileType typescript setl sw=2 sts=2 et
+au FileType typescript inoremap <Tab> <C-x><C-o>
+
+let g:tsuquyomi_completion_detail = 1
+nnoremap <Leader>ti :TsuImport<CR>

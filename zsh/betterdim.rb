@@ -58,6 +58,8 @@ class DockerImageList
       name, tag, hash, _, _, _, si, ze = line.split(' ').compact
       if name.include? "mesos"
         name = "[mesos] " + name[31,name.length]
+      elsif name.include? "containers.schibsted.io"
+        name = "[artif] " + name[24, name.length]
       elsif
         name = "[-std-] " + name
       end
