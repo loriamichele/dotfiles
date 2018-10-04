@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 echo "
 |---------------------------------------------|
 |    ___  ___  _____  ________  __    __  __  |
@@ -12,7 +14,6 @@ echo "
 Instalation in progress ...
 "
 
-bash setup/alacritty.sh
 bash setup/zsh.sh
 bash setup/vim.sh
 bash setup/font.sh

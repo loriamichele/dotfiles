@@ -13,4 +13,4 @@ cd ~ && ln -s .dotfiles/zsh/zshrc .zshrc
 cd ~ && ln -s .dotfiles/zsh/bash_aliases .bash_aliases
 cd ~ && ln -s .dotfiles/zsh/tmux.conf .tmux.conf
 
-echo "😄  done"
+echo "Done installing zsh/tmux config files! 👌 "

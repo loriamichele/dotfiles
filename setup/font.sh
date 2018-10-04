@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo "Installing fonts ..."
+set -e
+
+echo "Installing fonts..."
 
 if [ ! -d "~/.local" ]; then
     mkdir ~/.local
@@ -14,4 +16,4 @@ fi
 
 cp font/* ~/.local/share/fonts
 
-echo "DONE"
+echo "Done installing fonts! 👌 "

@@ -91,7 +91,7 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()         # (status battery time)
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
 
-export VIMRUNTIME=/usr/local/share/vim/vim80
+export VIMRUNTIME=/usr/local/share/vim/vim81
 
 export LC_ALL="en_GB.utf8"
 export LC_CTYPE="en_US.UTF-8"
