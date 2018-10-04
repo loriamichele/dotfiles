@@ -1,6 +1,11 @@
 Shell setup script
 ==================
 
+## Requirements
+
+- Vim 8.1+
+- Tmux 2.8+
+
 ## Installation
 
 1. Clone the repository in your HOME/.dotfiles directory (this is important!):
