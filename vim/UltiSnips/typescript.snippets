@@ -41,6 +41,12 @@ ${1:methodName}(${2:arguments}): ${3:void}
 }
 endsnippet
 
+snippet cbm "Generate a class bound method"
+${1:private} ${2:propertyName} = (${3:...args}): ${4:void} => {
+    $0
+}
+endsnippet
+
 snippet attr "attribute"
 ${1:private} ${2:attribute}: ${3:type};$0
 endsnippet

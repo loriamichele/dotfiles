@@ -156,7 +156,7 @@ set tags=tags
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'The-NERD-tree'
-" Plugin 'UltiSnips'
+Plugin 'UltiSnips'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ivalkeen/vim-ctrlp-tjump.git'
 Plugin 'arnaud-lb/vim-php-namespace'
@@ -193,13 +193,13 @@ Plugin 'mxw/vim-jsx'
 Plugin 'Quramy/vim-js-pretty-template'
 Plugin 'bcicen/vim-vice'
 Plugin 'fatih/vim-go'
-" Plugin 'vim-syntastic/syntastic'
 Plugin 'w0rp/ale'
 Plugin 'grassdog/tagman.vim'
 Plugin 'prettier/vim-prettier'
 Plugin 'isRuslan/vim-es6'
 Plugin 'Quramy/tsuquyomi'
 Plugin 'peitalin/vim-jsx-typescript'
+Plugin 'tpope/vim-surround'
 
 call vundle#end()
 filetype plugin indent on
@@ -246,11 +246,11 @@ let g:ctrlp_custom_ignore = {
   \ }
 
 "
-" UltiSnips comportment
+" UltiSnips config
 "
-" let g:UltiSnipsExpandTrigger="<Leader><Tab>"
-" let g:UltiSnipsJumpForwardTrigger="<Leader><Tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<Leader><S-Tab>"
+let g:UltiSnipsExpandTrigger="<Leader><Tab>"
+let g:UltiSnipsJumpForwardTrigger="<Leader><Tab>"
+let g:UltiSnipsJumpBackwardTrigger="<Leader><S-Tab>"
 
 "
 " Coloration

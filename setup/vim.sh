@@ -2,10 +2,10 @@
 
 set -e
 
-echo "Backing up old .vim & .vimrc..."
+echo "Backing up old .vim & .vimrc, if any..."
 
-mv ~/.vim ~/.vim.bak
-mv ~/.vimrc ~/.vimrc.bak
+mv ~/.vim ~/.vim.bak || true
+mv ~/.vimrc ~/.vimrc.bak || true
 
 echo "Installing new Vim configuration files, please wait..."
 

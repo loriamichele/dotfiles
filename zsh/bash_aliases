@@ -1,49 +1,41 @@
+# Some useful aliases
 alias vi='vim'
 alias ll='ls -lartG'
-alias cdw='cd ~/subito_workspace'
-alias cdc='cd ~/git_projects/sbt_components'
-alias cdcd='cd ~/git_projects/sbt_components_deploy'
+alias cdw='cd ~/subito-envs'
 alias v='virgilio'
 alias vc='virgilio command -n'
 alias vr='virgilio run -n'
 alias vs='virgilio stop -n'
-alias hostswitch='sudo ~/hosts_switch.sh'
-alias taggenjs='sh ~/.vimsetup/genjstags.sh'
-alias taggensym='rm tags; ctags -R --exclude=build --exclude=.git --exclude=vendor/phpunit --exclude=node_modules --exclude=docker --exclude=assets --exclude=web/coverage'
 alias doc='docker'
 alias docps='ruby ~/.dotfiles/zsh/betterdps.rb -a'
 alias docim='ruby ~/.dotfiles/zsh/betterdim.rb'
-alias dockerkillall='docker kill $(docker ps -q)'
+alias dockillall='docker kill $(docker ps -q)'
 alias gprune='git fetch --prune; git branch -r | awk '"'"'{print $1}'"'"' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '"'"'{print $1}'"'"' | xargs git branch -d'
 alias newalacritty='open -n /Applications/Alacritty.app'
-alias alacritty='~/git_projects/alacritty/target/release/alacritty'
 
-function susp() {
-    (
-        cdv
-        vagrant suspend
-    )
-}
-
-function boot() {
-    (
-        cdv
-        vagrant resume
-        ssh virgilio
-    )
-}
-
+# MacOS SOCKS tunnel
 function tunnel {
-    ssh -p 443 -D 2001 -f -C -q -N root@micheleloria.net
+    if [[ -z "$1" ]] || [[ -z "$2" ]]; then
+        echo "Usage: $FUNCNAME <[user@]host> <port>" >&2
+        return 1
+    fi
+    ssh -p $2 -D 2001 -f -C -q -N $1 &
+    export SOCKS_TUNNEL_PID=$!
     networksetup -setsocksfirewallproxy "Wi-Fi" localhost 2001
 }
 
 function detunnel {
     networksetup -setsocksfirewallproxy "Wi-Fi" "" ""
     networksetup -setsocksfirewallproxystate "Wi-Fi" off
-    kill $(ps aux | grep "\-N root\@micheleloria" | awk '{print $2}')
+    if [ -z "$SOCKS_TUNNEL_PID" ]; then
+        echo "No active tunnel found. If you changed session, search for SSH PID and kill it manually."
+    else
+        kill $SOCKS_TUNNEL_PID
+        unset SOCKS_TUNNEL_PID
+    fi
 }
 
+# List branches for a given folder
 function gitbranches()
 {
     if [[ -z "$1" ]]; then
@@ -68,6 +60,7 @@ function gitbranches()
     )
 }
 
+# Recursively pull from a given folder's first-level subfolders
 function gitrecursivepull()
 {
     if [[ -z "$1" ]]; then
@@ -97,6 +90,7 @@ function gitrecursivepull()
     )
 }
 
+# Recursively clean a given folder's first-level subfolders
 function gitrecursiveclean()
 {
     if [[ -z "$1" ]]; then
