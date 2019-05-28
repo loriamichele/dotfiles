@@ -9,7 +9,7 @@ POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)         # (status battery time)
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
 
 # Set Vim runtime path only on MacOS
-if [ "$(uname)" == "Darwin" ]; then
+if [ "$(uname)" "==" "Darwin" ]; then
     export VIMRUNTIME=/usr/local/share/vim/vim81
 fi
 
