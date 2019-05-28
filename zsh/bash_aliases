@@ -1,17 +1,13 @@
 # Some useful aliases
+alias o='xdg-open'
 alias vi='vim'
 alias ll='ls -lartG'
-alias cdw='cd ~/subito-envs'
-alias v='virgilio'
-alias vc='virgilio command -n'
-alias vr='virgilio run -n'
-alias vs='virgilio stop -n'
+alias cdw='cd ~/workspace'
 alias doc='docker'
 alias docps='ruby ~/.dotfiles/zsh/betterdps.rb -a'
 alias docim='ruby ~/.dotfiles/zsh/betterdim.rb'
 alias dockillall='docker kill $(docker ps -q)'
 alias gprune='git fetch --prune; git branch -r | awk '"'"'{print $1}'"'"' | egrep -v -f /dev/fd/0 <(git branch -vv | grep origin) | awk '"'"'{print $1}'"'"' | xargs git branch -d'
-alias newalacritty='open -n /Applications/Alacritty.app'
 
 # MacOS SOCKS tunnel
 function tunnel {

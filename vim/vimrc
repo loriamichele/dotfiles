@@ -171,7 +171,6 @@ Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'godlygeek/tabular.git'
 Plugin 'tpope/vim-fugitive.git'
-Plugin 'sjbach/lusty.git'
 Plugin 'heavenshell/vim-jsdoc.git'
 Plugin 'mileszs/ack.vim.git'
 Plugin 'Herzult/phpspec-vim.git'
@@ -200,6 +199,8 @@ Plugin 'isRuslan/vim-es6'
 Plugin 'Quramy/tsuquyomi'
 Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'tpope/vim-surround'
+Plugin 'suan/vim-instant-markdown'
+Plugin 'junegunn/vim-easy-align'
 
 call vundle#end()
 filetype plugin indent on
@@ -392,6 +393,7 @@ inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
 " Enable mouse funcionalities
 set mouse=a
+set ttymouse=xterm2
 " And add toggle shortcuts
 nnoremap <Leader>me :set mouse=a<cr>
 nnoremap <Leader>md :set mouse=<cr>
@@ -432,3 +434,8 @@ au FileType typescript inoremap <Tab> <C-x><C-o>
 
 let g:tsuquyomi_completion_detail = 1
 nnoremap <Leader>ti :TsuImport<CR>
+autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
+autocmd FileType typescript setlocal completeopt+=preview
+
+" Align GitHub-flavored Markdown tables
+au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>

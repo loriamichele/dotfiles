@@ -5,11 +5,13 @@ export ZSH=~/.oh-my-zsh
 ZSH_THEME="powerlevel9k/powerlevel9k"
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()         # (status battery time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)         # (status battery time)
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
 
-# Set Vim runtime path (this could vary based on system)
-export VIMRUNTIME=/usr/local/share/vim/vim81
+# Set Vim runtime path only on MacOS
+if [ "$(uname)" == "Darwin" ]; then
+    export VIMRUNTIME=/usr/local/share/vim/vim81
+fi
 
 # Export lang vars
 export LC_ALL="en_GB.utf8"
