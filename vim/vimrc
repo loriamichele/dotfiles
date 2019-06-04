@@ -47,7 +47,7 @@ set showmatch                       " Show matching (){}[]
 set noshowcmd
 set noshowmode
 set laststatus=2
-set clipboard=unnamed               " Allow to cp/p from clipboard
+set clipboard=unnamedplus               " Allow to cp/p from clipboard
 set number
 
 map <leader>l 20zl
@@ -211,9 +211,10 @@ filetype plugin indent on
 let g:airline_powerline_fonts=1
 let g:airline_theme='powerlineish'
 let g:airline#extensions#hunks#enabled=0
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod=':t'
 let g:airline#extensions#tabline#fnamecollapse=0
-let g:airline_section_c='%t'
+let g:airline_section_c='%f'
 
 if !exists('g:airline_symbols')
 let g:airline_symbols = {}
