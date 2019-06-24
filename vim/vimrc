@@ -1,6 +1,7 @@
 "
 " General behavior
 "
+
 set nocompatible                " Use vim defaults
 let mapleader=","               " Use the comma as leader
 set history=1000                " Increase history
@@ -38,6 +39,7 @@ nmap <leader>4 :set tabstop=4<cr>:set shiftwidth=4<cr>
 "
 " Interface
 "
+
 set ls=2                            " Always show the status line
 set ruler                           " Show cursor position
 set notitle                         " Don't show title in console title bar
@@ -49,10 +51,6 @@ set noshowmode
 set laststatus=2
 set clipboard=unnamedplus               " Allow to cp/p from clipboard
 set number
-
-map <leader>l 20zl
-map <leader>h 20zh
-imap <leader>s <C-x><C-u>
 
 " Search options
 set incsearch
@@ -89,9 +87,11 @@ set wildmode=list:longest           " BASH style completion
 " tab navigation
 nnoremap <silent> <C-w>t :tabnew<CR>
 nnoremap <silent> <Leader>tn :tabnext<CR>
+
 "
 " Navigation & Viewport
 "
+
 set scrolloff=5       " at least 5 lines of context when moving cursor
 set sidescrolloff=5   " and 5 columns of contet
 set hidden                          " Allow switch beetween modified buffers
@@ -100,9 +100,21 @@ set backspace=indent,eol,start      " Improve backspacing
 " Restore cursor position
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
 
+" Just in case we might end up on a GUI...
+if has('gui_running')
+    set listchars=trail:‧,tab:▹∙,nbsp:ⅹ
+    set lines=100 columns=140
+    set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ Regular\ 13
+    highlight Normal guifg=#F8F8F2 guibg=#101520
+    set guioptions-=T               " Remove toolbar
+    set guioptions-=r               " Remove right-hand scroll bar
+    set guioptions-=L               " Remove right-hand scroll bar
+endif
+
 "
 " Syntax & File types
 "
+
 syntax enable         " Enable syntax highlighting
 set synmaxcol=200
 filetype off          " enable file type detection
@@ -143,10 +155,12 @@ set wildignore=data/**,app/cache/**,web/bundles/**,src/*/*Bundle/vendor,src/*/ve
 "
 " Vundle configuration
 "
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 set tags=tags
+
 " au FileType php set tags=php-src.tags,php-vendor.tags
 " au FileType javascript set tags=js-lib.tags,js-modules.tags,js-jspm.tags
 " au FileType typescript set tags=ts-lib.tags,ts-typings.tags,ts-modules.tags
@@ -208,6 +222,7 @@ filetype plugin indent on
 "
 " Airline
 "
+
 let g:airline_powerline_fonts=1
 let g:airline_theme='powerlineish'
 let g:airline#extensions#hunks#enabled=0
@@ -232,24 +247,35 @@ let g:airline_symbols.whitespace = ''
 "
 " PDV
 "
+
 let g:pdv_template_dir = $HOME ."/.vim/doc_templates"
 nnoremap <Leader>d :call pdv#DocumentWithSnip()<CR>
 
 "
 " ControlP mapping
 "
+
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
-
-nnoremap <silent> <C-b> :CtrlPBuffer<CR>
-
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:8,results:100'
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v([\/]\.(git|hg|svn))|([\/]node_modules)|([\/]compiled)|([\/]dist)|([\/]app/lib)|([\/]bower_components)|([\/]doc)|([\/]jspm_packages)$',
   \ }
 
+" speep up Ctrl-P
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+if executable('rg')
+  let g:ctrlp_user_command = 'rg %s --files'
+  let g:ackprg = 'rg --vimgrep'
+endif
+
+nnoremap <silent> <C-b> :CtrlPBuffer<CR>
+
 "
 " UltiSnips config
 "
+
 let g:UltiSnipsExpandTrigger="<Leader><Tab>"
 let g:UltiSnipsJumpForwardTrigger="<Leader><Tab>"
 let g:UltiSnipsJumpBackwardTrigger="<Leader><S-Tab>"
@@ -257,6 +283,7 @@ let g:UltiSnipsJumpBackwardTrigger="<Leader><S-Tab>"
 "
 " Coloration
 "
+
 set t_Co=256
 colorscheme molokai
 hi Normal          guifg=#F8F8F2
@@ -267,9 +294,13 @@ highlight LineNr ctermbg=235 guibg=#2c2d27
 highlight Visual ctermbg=239
 hi ColorColumn guibg=#2d2d2d ctermbg=235
 
+" Add line lenght rules
+set colorcolumn=80,100,120
 
-" Add some keys map
-nnoremap <leader>x :NERDTreeToggle<CR>
+"
+" Some custom key mapping
+"
+
 nnoremap <leader>g :Ack "
 vnoremap <Leader>: :Tabularize /:<CR>
 vnoremap <Leader>/ :Tabularize /:\zs<CR>
@@ -308,71 +339,23 @@ nmap <Leader>a gg<S-v><S-g><CR>
 nnoremap <Leader><C-c> :!rm -rf ~/.vim/tmp/*<CR>
 
 " easy buffer navigation
-nmap <Leader>b <Leader>lb
-nnoremap <Leader>ll :bn<CR>
-nnoremap <Leader>hh :bp<CR>
+nnoremap <Leader>l :bn<CR>
+nnoremap <Leader>h :bp<CR>
 
-"C++ headers navigation
+" C++ headers navigation
 nnoremap <leader>jh :e %:r.h:s?src?include?<CR>
 
-map <M-a>v <C-c>
+" Show Macros list
+function! ShowMacros()
+    10new
+    exe 'r!' . 'grep -B 1 -E "^\s*let @" ~/.vimrc'
+    call cursor(1,1)
+endfunction
+nnoremap <Leader>sm :call ShowMacros()<CR>
 
 " Easy tags jump
 nmap <silent> <Leader>j "zyiw:exe ":tj ".@z.""<CR>
 nmap <silent> <Leader>J "zyiw:exe ":ptj ".@z.""<CR>
-
-" configure NERDTree
-set modifiable
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-autocmd FileType nerdtree setlocal nolist
-
-noremap <Leader>nf :NERDTreeFind<CR>
-
-" PHP namespace
-inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
-noremap <Leader>u :call PhpInsertUse()<CR>
-inoremap <Leader>e <C-O>:call PhpExpandClass()<CR>
-noremap <Leader>e :call PhpExpandClass()<CR>
-
-" ZEN coding shortcuts ;)
-nmap <silent> <Leader>z :call emmet#expandAbbr(3,"")<CR>i
-imap <silent> <Leader>z <Esc>h :call emmet#expandAbbr(3,"")<CR>i
-
-"
-" Jsdoc mapping
-"
-let g:jsdoc_default_mapping = 0
-nmap <silent> <Leader><C-j> :call jsdoc#insert()<CR>
-
-" ctrlp configuration
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:8,results:100'
-
-
-" vim-symfony configuration
-let g:symfony_app_console_caller= "php"
-let g:symfony_app_console_path = "app/console"
-noremap <leader>sr :call CompleteSymfonyRouter(expand("<cword>"))<CR>
-noremap <leader>sc :call CompleteSymfonyContainer()<CR>
-noremap <leader>sf :execute ":!"g:symfony_enable_shell_cmd<CR>
-noremap <silent> <C-t> :CtrlPTag<cr>
-
-" Omnifund
-set omnifunc=syntaxcomplete#Complete
-
-" speep up Ctrl-P
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-if executable('rg')
-  let g:ctrlp_user_command = 'rg %s --files'
-  let g:ackprg = 'rg --vimgrep'
-endif
-
-set keywordprg=pdoc
-
-let NERDTreeIgnore=['\gulp-*', '\~$', '\.tags$']
 
 " Use TAB to complete when typing words, else inserts TABs as usual.
 " Uses dictionary and source files to find matching words to complete.
@@ -395,22 +378,66 @@ inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 " Enable mouse funcionalities
 set mouse=a
 set ttymouse=xterm2
+
 " And add toggle shortcuts
 nnoremap <Leader>me :set mouse=a<cr>
 nnoremap <Leader>md :set mouse=<cr>
 
-" Add line lenght rules
-set colorcolumn=80,100,120
-
-" Disable arrows :D
+" But disable arrows :D
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 noremap <Left> <Nop>
 noremap <Right> <Nop>
 
+"
+" And here we go with misc bundle config stuff
+"
+
+" NERDTree configuration
+set modifiable
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+let g:webdevicons_gui_glyph_fix = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeIgnore=['\gulp-*', '\~$', '\.tags$']
+
+autocmd FileType nerdtree setlocal nolist
+
+noremap <Leader>nf :NERDTreeFind<CR>
+nnoremap <leader>x :NERDTreeToggle<CR>
+
+" PHP namespace
+inoremap <Leader>u <C-O>:call PhpInsertUse()<CR>
+noremap <Leader>u :call PhpInsertUse()<CR>
+inoremap <Leader>e <C-O>:call PhpExpandClass()<CR>
+noremap <Leader>e :call PhpExpandClass()<CR>
+
+" ZEN coding shortcuts ;)
+nmap <silent> <Leader>z :call emmet#expandAbbr(3,"")<CR>i
+imap <silent> <Leader>z <Esc>h :call emmet#expandAbbr(3,"")<CR>i
+
+" Jsdoc mapping
+let g:jsdoc_default_mapping = 0
+nmap <silent> <Leader><C-j> :call jsdoc#insert()<CR>
+
+" vim-symfony configuration
+let g:symfony_app_console_caller= "php"
+let g:symfony_app_console_path = "app/console"
+noremap <leader>sr :call CompleteSymfonyRouter(expand("<cword>"))<CR>
+noremap <leader>sc :call CompleteSymfonyContainer()<CR>
+noremap <leader>sf :execute ":!"g:symfony_enable_shell_cmd<CR>
+noremap <silent> <C-t> :CtrlPTag<cr>
+
+" Omnifund
+set omnifunc=syntaxcomplete#Complete
+
+" ALE config
 let g:ale_linters = {
 \    'typescript': ['tslint', 'tsserver'],
 \}
+
+" NERDCommenter config
+let g:NERDSpaceDelims = 1
 
 " Prettier config
 let g:prettier#autoformat = 0
@@ -419,21 +446,12 @@ autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.graphql Pr
 " JSON Prettifier
 nnoremap <Leader>jp :%!python -m json.tool<CR>
 
-if has('gui_running')
-    set listchars=trail:‧,tab:▹∙,nbsp:ⅹ
-    set lines=100 columns=140
-    set guifont=UbuntuMonoDerivativePowerline\ Nerd\ Font\ Regular\ 13
-    highlight Normal guifg=#F8F8F2 guibg=#101520
-    set guioptions-=T               " Remove toolbar
-    set guioptions-=r               " Remove right-hand scroll bar
-    set guioptions-=L               " Remove right-hand scroll bar
-endif
-
 " Typescript/Tsuquyomi config
+let g:tsuquyomi_completion_detail = 1
+
 au FileType typescript setl sw=2 sts=2 et
 au FileType typescript inoremap <Tab> <C-x><C-o>
 
-let g:tsuquyomi_completion_detail = 1
 nnoremap <Leader>ti :TsuImport<CR>
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 autocmd FileType typescript setlocal completeopt+=preview
