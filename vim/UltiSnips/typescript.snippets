@@ -103,13 +103,19 @@ snippet arr "Arrow function"
 endsnippet
 
 snippet desc "Jasmine describe" !b
-describe('${1:description ...}', () => {
+describe("${1:description ...}", () => {
     $0
 });
 endsnippet
 
 snippet it "Jasmine it"
 it('${1:doSomething ....}', () => {
+    $0
+});
+endsnippet
+
+snippet test "Jest test"
+test("${1:doSomething ....}", () => {
     $0
 });
 endsnippet

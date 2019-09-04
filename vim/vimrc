@@ -31,6 +31,7 @@ set tabstop=4
 set shiftwidth=4
 set list
 set listchars=trail:∙,nbsp:∙,tab:»·
+set updatetime=100
 
 " define shortcuts ',2' and ',4' to change indentation easily:
 nmap <leader>2 :set tabstop=2<cr>:set shiftwidth=2<cr>
@@ -170,6 +171,7 @@ set tags=tags
 Plugin 'VundleVim/Vundle.vim'
 
 Plugin 'The-NERD-tree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'UltiSnips'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'ivalkeen/vim-ctrlp-tjump.git'
@@ -398,6 +400,7 @@ set modifiable
 let g:NERDTreeDirArrowExpandable = ''
 let g:NERDTreeDirArrowCollapsible = ''
 let g:webdevicons_gui_glyph_fix = 1
+let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
 let NERDTreeMinimalUI = 1
 let NERDTreeIgnore=['\gulp-*', '\~$', '\.tags$']
 
