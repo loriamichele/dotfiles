@@ -217,6 +217,9 @@ Plugin 'peitalin/vim-jsx-typescript'
 Plugin 'tpope/vim-surround'
 Plugin 'suan/vim-instant-markdown'
 Plugin 'junegunn/vim-easy-align'
+Plugin 'arrufat/vala.vim'
+Plugin 'mesonbuild/meson', {'rtp': 'data/syntax-highlighting/vim'}
+Plugin 'vim-scripts/Conque-Shell'
 
 call vundle#end()
 filetype plugin indent on
@@ -397,10 +400,8 @@ noremap <Right> <Nop>
 
 " NERDTree configuration
 set modifiable
-let g:NERDTreeDirArrowExpandable = ''
-let g:NERDTreeDirArrowCollapsible = ''
-let g:webdevicons_gui_glyph_fix = 1
-let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
+let g:NERDTreeDirArrowExpandable = '⠀'
+let g:NERDTreeDirArrowCollapsible = '⠀'
 let NERDTreeMinimalUI = 1
 let NERDTreeIgnore=['\gulp-*', '\~$', '\.tags$']
 

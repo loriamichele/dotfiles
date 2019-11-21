@@ -3,7 +3,7 @@ export TERM="xterm-256color"
 # ZSH/Oh-my-zsh stuff
 export ZSH=~/.oh-my-zsh
 ZSH_THEME="powerlevel9k/powerlevel9k"
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting npm)
 source $ZSH/oh-my-zsh.sh
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)         # (status battery time)
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
