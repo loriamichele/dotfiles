@@ -50,7 +50,7 @@ set showmatch                       " Show matching (){}[]
 set noshowcmd
 set noshowmode
 set laststatus=2
-set clipboard=unnamedplus               " Allow to cp/p from clipboard
+set clipboard=unnamed               " Allow to cp/p from clipboard
 set number
 
 " Search options
@@ -382,7 +382,7 @@ inoremap <Tab> <C-R>=Tab_Or_Complete()<CR>
 
 " Enable mouse funcionalities
 set mouse=a
-set ttymouse=xterm2
+set ttymouse=sgr
 
 " And add toggle shortcuts
 nnoremap <Leader>me :set mouse=a<cr>
@@ -454,11 +454,15 @@ nnoremap <Leader>jp :%!python -m json.tool<CR>
 let g:tsuquyomi_completion_detail = 1
 
 au FileType typescript setl sw=2 sts=2 et
+au FileType typescript.tsx setl sw=2 sts=2 et
 au FileType typescript inoremap <Tab> <C-x><C-o>
+au FileType typescript.tsx inoremap <Tab> <C-x><C-o>
 
 nnoremap <Leader>ti :TsuImport<CR>
 autocmd FileType typescript nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
+autocmd FileType typescript.tsx nmap <buffer> <Leader>t : <C-u>echo tsuquyomi#hint()<CR>
 autocmd FileType typescript setlocal completeopt+=preview
+autocmd FileType typescript.tsx setlocal completeopt+=preview
 
 " Align GitHub-flavored Markdown tables
 au FileType markdown vmap <Leader><Bslash> :EasyAlign*<Bar><Enter>
