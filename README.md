@@ -4,8 +4,9 @@ ML.dotfiles
 ## Requirements
 
 - Unix-based OS (tested on MacOS and Linux)
-- Vim 8.1+
+- Vim 8.2+
 - Tmux 2.8+
+- Autojump 22.5+
 
 ## Installation
 
