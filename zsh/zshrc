@@ -8,11 +8,6 @@ source $ZSH/oh-my-zsh.sh
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status)         # (status battery time)
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir rbenv vcs)
 
-# Set Vim runtime path only on MacOS
-if [ "$(uname)" "==" "Darwin" ]; then
-    export VIMRUNTIME=/usr/local/share/vim/vim81
-fi
-
 # Export lang vars
 export LC_ALL="en_GB.utf8"
 export LC_CTYPE="en_US.UTF-8"
@@ -25,16 +20,25 @@ ssh-add -K &> /dev/null
 export EDITOR='vim'
 
 # Set Go required env vars
-export GOPATH=$HOME/subito-envs
+export GOPATH=$HOME/workspace
 export GOBIN=$GOPATH/bin
 
 # Source aliases
 source ~/.bash_aliases
 
 # Set PATH var
-export PATH="$PATH:$GOBIN:/usr/local/opt/go/libexec/bin:$HOME/.cargo/bin:/usr/local/php5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="$PATH:$GOBIN:/usr/local/opt/go/libexec/bin:$HOME/.cargo/bin:/usr/local/php5/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/local/bin:$HOME/.local/bin"
 
 # Source custom settings, if any
 if [ -f ~/.zsh_custom ]; then
     source ~/.zsh_custom
+fi
+
+# MacOS-specific adjustments
+if [ "$(uname)" "==" "Darwin" ]; then
+    # Vim runtime
+    export VIMRUNTIME=/usr/local/share/vim/vim82
+
+    # Autojump
+    [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 fi
