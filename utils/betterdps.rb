@@ -49,10 +49,14 @@ class DockerContainerList
   def container_list
     options = [
       'docker',
-      'inspect',
-      '$(docker ps -qa)'
+      'inspect'
     ]
-    output = `#{options.join(' ')}`
+    cList = `docker ps -qa`
+    if cList.empty?
+      puts 'No docker containers found'
+      exit!
+    end
+    output = `#{options.join(' ') + ' ' + cList.gsub("\n", ' ').squeeze(' ')}`
     containers = []
     containers << Container.new('Name', 'Hash', '[ reg ] Image', 'IP', 'Status')
     json_containers = JSON.parse(output)

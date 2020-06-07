@@ -51,6 +51,10 @@ class DockerImageList
       @args.join(' ')
     ]
     output = `#{options.join(' ')}`
+    if output.empty?
+      puts 'No docker images found'
+      exit!
+    end
     images = []
     images << Image.new('[ reg ] Name', 'Tag', 'Hash', 'Size')
     output.each_line.with_index do |line, index|
